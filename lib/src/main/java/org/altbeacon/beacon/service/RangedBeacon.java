@@ -76,7 +76,11 @@ public class RangedBeacon implements Serializable {
         if (rssi != 127) {
             mTracked = true;
             lastTrackedTimeMillis = SystemClock.elapsedRealtime();
-            getFilter().addMeasurement(rssi);
+            if (getFilter() != null) {
+                getFilter().addMeasurement(rssi);
+            } else {
+                LogManager.w(TAG, "Filter is null for beacon: " + mBeacon.toString() + ", skipping measurement");
+            }
         }
     }
 
